@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  backend:
+    build: .
+    restart: on-failure
+    ports:
+      - "8080:80"
+    depends_on:
+      kafka:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+
+    environment:
+      DB_URL: "postgres://postgres:postgres@postgres:5432/postgres?sslmode=disable"
+      PRODUCTION: "false"
+      KAFKA_BROKERS: "kafka:9092"
+      CONTAINER_STATUS_TOPIC: "container_status"
+      CONTAINER_STATUS_GROUP_ID: "backend"
+
+  postgres:
+    image: postgres:16.6
+    environment:
+      TZ: Europe/Moscow
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready", "-d", "db_prod" ]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+
+
+  kafka:
+    container_name: kafka
+    image: bitnami/kafka:latest
+    restart: always
+    environment:
+      KAFKA_ENABLE_KRAFT: "yes"
+      KAFKA_CFG_PROCESS_ROLES: "controller,broker"
+      KAFKA_CFG_CONTROLLER_LISTENER_NAMES: "CONTROLLER"
+      KAFKA_CFG_LISTENERS: "PLAINTEXT://kafka:9092,CONTROLLER://:9093"
+      KAFKA_CFG_ADVERTISED_LISTENERS: "PLAINTEXT://kafka:9092"
+      KAFKA_CFG_NODE_ID: "1"
+      KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: "CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT"
+      KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: "1@kafka:9093"
+      ALLOW_PLAINTEXT_LISTENER: "yes"
+      KAFKA_JMX_PORT: 9102
+      KAFKA_KRAFT_CLUSTER_ID: "Adksdfonds_sAdsf"
+    healthcheck:
+      test: [ "CMD", "kafka-topics.sh", "--bootstrap-server", "kafka:9092", "--list" ]
+      interval: 5s
+      retries: 10
+      timeout: 5s
+      start_period: 5s
+
+
+    ports:
+      - '9092:9092'
+      - '9093:9093'
+      - '9094:9094'
+
+  kafka-ui:
+    container_name: kafka-ui
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - 9080:8080
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=local
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
+    depends_on:
+      - kafka

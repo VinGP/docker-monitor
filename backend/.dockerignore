@@ -1,0 +1,7 @@
+# Exclude locally vendored dependencies.
+vendor/
+
+.git
+.gitignore
+
+README.md

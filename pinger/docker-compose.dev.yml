@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  pinger:
+    user: root
+    cap_add:
+      - ALL
+    build: .
+    privileged: true
+    environment:
+      - NETWORKS=schedule-parser_default
+      - LABELS=true
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "/var/run/docker/netns/:/var/run/docker/netns/"
+      - "/proc:/host/proc"
+      - "/var/run/docker.pid:/host/var/run/docker.pid"
+    labels:
+      - "pinger=true"
+
+
+  nginx:
+    image: nginx
+    deploy:
+      replicas: 3
+    labels:
+      - "pinger=true"

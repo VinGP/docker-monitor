@@ -1,0 +1,103 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "API for users RSREU schedule",
+        "title": "Schedule user API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "paths": {
+        "/container_status": {
+            "get": {
+                "description": "Get all container statuses",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "container_status"
+                ],
+                "summary": "Get all container statuses",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/backend_internal_model.ContainerStatus"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create or update container status",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "container_status"
+                ],
+                "summary": "Create or update container status",
+                "parameters": [
+                    {
+                        "description": "Container status",
+                        "name": "container_status",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/backend_internal_model.ContainerStatus"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete all container statuses",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "container_status"
+                ],
+                "summary": "Delete all container statuses",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "backend_internal_model.ContainerStatus": {
+            "type": "object",
+            "required": [
+                "ip_address"
+            ],
+            "properties": {
+                "ip_address": {
+                    "type": "string"
+                },
+                "last_success": {
+                    "type": "string"
+                },
+                "ping_time": {
+                    "type": "number"
+                }
+            }
+        }
+    }
+}

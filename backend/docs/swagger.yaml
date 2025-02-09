@@ -1,0 +1,67 @@
+definitions:
+  backend_internal_model.ContainerStatus:
+    properties:
+      ip_address:
+        type: string
+      last_success:
+        type: string
+      ping_time:
+        type: number
+    required:
+    - ip_address
+    type: object
+info:
+  contact: {}
+  description: API for users RSREU schedule
+  title: Schedule user API
+  version: "1.0"
+paths:
+  /container_status:
+    delete:
+      consumes:
+      - application/json
+      description: Delete all container statuses
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Delete all container statuses
+      tags:
+      - container_status
+    get:
+      consumes:
+      - application/json
+      description: Get all container statuses
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/backend_internal_model.ContainerStatus'
+            type: array
+      summary: Get all container statuses
+      tags:
+      - container_status
+    post:
+      consumes:
+      - application/json
+      description: Create or update container status
+      parameters:
+      - description: Container status
+        in: body
+        name: container_status
+        required: true
+        schema:
+          $ref: '#/definitions/backend_internal_model.ContainerStatus'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Create or update container status
+      tags:
+      - container_status
+swagger: "2.0"
