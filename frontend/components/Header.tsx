@@ -11,7 +11,7 @@ export const Header = () => {
                         </div>
                     </div>
                     <div>
-                        <h2><a className="hover:text-accent" href="https://github.com/VinGP">Github</a></h2>
+                        <h2><a className="hover:text-accent" href="https://github.com/VinGP/docker-monitor">Github</a></h2>
                     </div>
                 </div>
 
