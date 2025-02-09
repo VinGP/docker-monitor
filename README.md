@@ -2,12 +2,20 @@
     <h1 align="center">Docker Monitor</h1>
 </p>
 
-## Запуск
-
 > [!NOTE]  
 > Вы можете увидеть работу программы на моем сайте [docker-monitor.vingp.dev](https://docker-monitor.vingp.dev/)
-> 
-> Благодоря `netns` программа смогла спарсить и пингануть абсолютно все контейнеры в системе (Docker Compose приложения, Docker Swarm сервисы и просто запущенные контейнеры).
+>
+> Благодоря `netns` программа смогла спарсить и пингануть абсолютно все контейнеры в системе (Docker Compose
+> приложения, Docker Swarm сервисы и просто запущенные контейнеры).
+
+## Запуск
+
+> [!WARNING]
+> Windows WSL `netns` не поддерживается в полной мере. Чтобы `pinger` мог обращаться к контейнерам в другой сети,
+> подключите либо `pinger` к сети контейнера, либо контейнер к сети `pinger`.
+>
+> Для тестирования полной функциональности в Windows можно
+> использовать [Vagrant](https://developer.hashicorp.com/vagrant/docs/installation) (см. [Запуск с Vagrant](#запуск-с-vagrant)).
 
 Для запуска выполните команду:
 
@@ -103,3 +111,14 @@ docker-compose up --build -d
     <img src="images/index_page.png" />
 </p>
 
+## Запуск с Vagrant
+
+1. Установите [Vagrant](https://developer.hashicorp.com/vagrant/docs/installation)
+   и [VirtualBox](https://www.virtualbox.org/wiki/Downloads).
+2. Выполните команду:
+
+```shell
+vagrant up
+```
+
+3. Перейти по [http://localhost:8080](http://localhost:8080)
