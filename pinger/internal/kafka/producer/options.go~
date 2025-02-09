@@ -1,4 +1,0 @@
-package producer
-
-
-type Option func(*Pinger)
