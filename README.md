@@ -1,3 +1,5 @@
+## ✅ Задание прошло проверку ([Подтверждение](#-тестирование-пройдено-успешно))
+
 <p align="center">
     <h1 align="center">Docker Monitor</h1>
 </p>
@@ -122,3 +124,7 @@ vagrant up
 ```
 
 3. Перейти по [http://localhost:8080](http://localhost:8080)
+
+## ✅ Тестирование пройдено успешно
+
+![Test](images/img.png)
